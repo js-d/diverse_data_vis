@@ -7,7 +7,7 @@ After cloning, move inside this repository and:
 
 Inside `main.py`, specify a list of model names, a list of images, and list of layer names. 
 
-`python main.py` (with access to CUDA) computes the corresponding [caricatures](https://github.com/tensorflow/lucid/issues/121) and stores them in `out`.
+`python main.py` (with access to CUDA) computes the corresponding [caricatures](https://github.com/tensorflow/lucid/issues/121) and stores them in `out`. Intuitively, a caricature describes what a layer `l` "sees" in an input `x` by visualizing the activation vector `f_l(x)`.
 
 In `out`, the visualizations are stored in `.npy` and `.png` formats. They are named in the form `<model_name>_<layer_name>_<image_name>.npy` and `<model_name>_<layer_name>_<image_name>.png`.
 
@@ -27,3 +27,8 @@ You can find the visualizations by unzipping `preliminary_results.zip`. A few ob
 * The caricatures by residual blocks (here `layer3_3`) look better than the others, and they also look quite different between both models. In particular: 
     * The colours are consistenly different, and are more uniform for `resnet_50_single_texture`.
     * The visualisations of `resnet_50_single_texture` have small circular patterns that the visualizations of `resnet_50_single_camera` lack.
+
+Next steps:
+* Models: I'll compute visualizations for the other resnet50 models.
+* Images: I can compute caricatures of [flowers](https://distill.pub/2018/building-blocks/examples/input_images/flowers.jpeg), [dog_cat](https://distill.pub/2018/building-blocks/examples/input_images/dog_cat.jpeg), and [chain](https://distill.pub/2018/building-blocks/examples/input_images/chain.jpeg). However, I think it could be more informative to choose images from the validation set of the dataset that you created.
+* Layers: I'll add more residual layers, whose visualizations are clearer and more informative.
