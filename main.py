@@ -94,7 +94,9 @@ if __name__ == "__main__":
     list_model_names = [
         m_name[:-3]
         for m_name in os.listdir("checkpoints")
-        if m_name.startswith("resnet_50_single") or m_name.startswith("resnet_50_train")
+        if m_name.startswith("resnet_50_single")
+        or m_name.startswith("resnet_50_train")
+        or m_name == "resnet_50_imagenet_200k"
     ]
     list_model_names.remove("resnet_50_train_00_redo")
 
