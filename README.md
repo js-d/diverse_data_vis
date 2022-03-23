@@ -1,7 +1,7 @@
 # diverse_data_vis
 
 After cloning, move inside this repository and:
-* create a conda environment using `conda env create -f environment.yml`
+* create a conda environment using `conda env create -f environment.yml` (requires GPU support - if you just want to display the visualisations, you can simply install `streamlit` in a different environment)
 * add a `checkpoints` folder containing the checkpoints of the different models
 * add an `out` folder which will contain the visualizations.
 
