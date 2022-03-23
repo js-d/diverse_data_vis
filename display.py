@@ -44,7 +44,7 @@ model2_name = st.sidebar.selectbox("Model 2", list_model_names)
 layer_name = st.sidebar.selectbox("Layer", list_layer_names)
 
 img_name = st.sidebar.selectbox("Image", list_img_names)
-st.sidebar.image(Image.open(results_path / Path(f"images/{img_name}")))
+st.sidebar.image(Image.open(Path(f"images/{img_name}.png")))
 
 
 fn1_core = f"{model1_name}_{layer_name}_{img_name}"
@@ -57,7 +57,9 @@ img1 = Image.fromarray(np.uint8(np.load(path1) * 255)).convert("RGB")
 img2 = Image.fromarray(np.uint8(np.load(path2) * 255)).convert("RGB")
 
 st.image(
-    [img1, img2], width=320, caption=[f"Model 1: {task1}", f"Model 2: {task2}"],
+    [img1, img2],
+    width=320,
+    caption=[f"Model 1: {model1_name}", f"Model 2: {model2_name}"],
 )
 
 frame_text = st.empty()

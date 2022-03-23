@@ -3,3 +3,4 @@ out/*
 checkpoints/*
 pretrain_results/*
 pretrain_results.zip
+streamlit_env.yml
