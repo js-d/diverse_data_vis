@@ -2,6 +2,9 @@
 from time import time
 
 t0 = time()
+
+import argparse
+import os
 from PIL import Image
 import numpy as np
 import torch
@@ -60,7 +63,7 @@ def get_img_tens(img_name, device, norm=None):
     return norm_img_tens
 
 
-def get_vis(model, norm_img_tens, layer_name):
+def get_vis(model, norm_img_tens, layer_name, num_steps):
     # get objective
     with torch.no_grad():
         direction = single_layer_acts(model, norm_img_tens, layer_name)[0, :, :, :]
@@ -68,7 +71,12 @@ def get_vis(model, norm_img_tens, layer_name):
 
     # get explanation
     fvis = render.render_vis(
-        model, obj, thresholds=(512,), show_image=False, verbose=True, progress=False,
+        model,
+        obj,
+        thresholds=(num_steps,),
+        show_image=False,
+        verbose=True,
+        progress=False,
     )
     fvis_arr = fvis[0][0, :, :, :]
 
@@ -76,28 +84,41 @@ def get_vis(model, norm_img_tens, layer_name):
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--img_name", type=str)
+    args = parser.parse_args()
+
     device = torch.device("cuda:0")
 
     # models
     list_model_names = [
-        "resnet_50_imagenet_200k",
-        "resnet_50_single_camera",
-        "resnet_50_single_texture",
-        "pretrained",
+        m_name[:-3]
+        for m_name in os.listdir("checkpoints")
+        if m_name.startswith("resnet_50_single") or m_name.startswith("resnet_50_train")
     ]
+    list_model_names.remove("resnet_50_train_00_redo")
 
     # images
-    list_img_names = ["flowers", "dog_cat", "chain"]
+    assert args.img_name in [
+        "flowers",
+        "chain",
+        "new_jeep",
+        "new_piano",
+        "new_chrysler",
+        "new_furniture",
+    ]
+    list_img_names = [args.img_name]
 
     # layers
     list_layer_names = [
-        "layer2_2_conv1",
-        "layer3_0_conv3",
+        "layer2_1_conv2",
+        "layer3_1",
         "layer3_2_conv2",
         "layer3_3",
         "layer3_4_conv3",
-        "layer4_0_conv3",
-        "layer4_2_conv3",
+        "layer3_5",
+        "layer4_1_conv2",
+        "layer4_2",
     ]
 
     # get the visualizations
@@ -114,6 +135,10 @@ if __name__ == "__main__":
                 norm_img_tens = get_img_tens(img_name, device).to(device)
 
             for layer_name in list_layer_names:
+                if layer_name.startswith("layer4"):
+                    num_steps = 1024
+                else:
+                    num_steps = 512
                 print(model_name)
                 print(img_name)
                 print(layer_name)
@@ -121,7 +146,7 @@ if __name__ == "__main__":
                 t1 = time()
 
                 # get visualization
-                fvis_arr = get_vis(model, norm_img_tens, layer_name)
+                fvis_arr = get_vis(model, norm_img_tens, layer_name, num_steps)
 
                 # count visualization time
                 vis_time = time() - t1

@@ -1,3 +1,5 @@
 __pycache__
 out/*
 checkpoints/*
+pretrain_results/*
+pretrain_results.zip
