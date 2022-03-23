@@ -40,4 +40,4 @@ Next, I computed visualizations for:
 * 6 images: [flowers](https://distill.pub/2018/building-blocks/examples/input_images/flowers.jpeg), [dog_cat](https://distill.pub/2018/building-blocks/examples/input_images/dog_cat.jpeg), [chain](https://distill.pub/2018/building-blocks/examples/input_images/chain.jpeg), as well as images of a piano, a Jeep, a Chrysler car, a chest of drawers
 * 8 layers: `layer2_1_conv2`,`layer3_1`,`layer3_2_conv2`,`layer3_3`,`layer3_4_conv3`,`layer3_5`,`layer4_1_conv2`,`layer4_2`, which I chose to visualize different parts of the network, and to have both convolutional layers and residual block ends
 
-You can find the visualizations by unzipping `pretrain_results.zip` ([link](https://drive.google.com/file/d/1gjkYjcv5kkYFVDSncihvdY4c0qHZt0K5/view?usp=sharing)).
+You can find the visualizations by unzipping `pretrain_results.zip` ([link](https://drive.google.com/file/d/1az7xllu2cJz6tM7QZfO-vBqQSnWw8eaM/view?usp=sharing)).
