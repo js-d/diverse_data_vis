@@ -1,9 +1,19 @@
 # diverse_data_vis
 
+### To display the visualizations
+
 After cloning, move inside this repository and:
 
-* create a conda environment using `conda env create -f environment.yml` (requires GPU support - if you just want to display the visualisations, you can simply install `streamlit` in a different environment)
-* add a `checkpoints` folder containing the checkpoints of the different models
+- install `streamlit`
+- download and unzip `pretrain_results.zip` ([link](https://drive.google.com/file/d/1az7xllu2cJz6tM7QZfO-vBqQSnWw8eaM/view?usp=sharing)) and `ft_results.zip` ([link](https://drive.google.com/file/d/1p2crA0_j5A359TmIb9_m5STm53wjhppr/view?usp=sharing)), and move the folders inside this repository
+- run the streamlit app: `streamlit run display.py`
+
+### To obtain visualizations
+
+After cloning, move inside this repository and:
+
+* create a conda environment using `conda env create -f environment.yml` (requires GPU support)
+* add a `checkpoints` folder containing the checkpoints of the different models you would like to visualize
 * add an `out` folder which will contain the visualizations.
 
 Inside `main.py`, specify a list of model names, a list of images, and list of layer names.
@@ -41,3 +51,13 @@ Next, I computed visualizations for:
 * 8 layers: `layer2_1_conv2`,`layer3_1`,`layer3_2_conv2`,`layer3_3`,`layer3_4_conv3`,`layer3_5`,`layer4_1_conv2`,`layer4_2`, which I chose to visualize different parts of the network, and to have both convolutional layers and residual block ends
 
 You can find the visualizations by unzipping `pretrain_results.zip` ([link](https://drive.google.com/file/d/1az7xllu2cJz6tM7QZfO-vBqQSnWw8eaM/view?usp=sharing)).
+
+## fine-tune results
+
+I computed visualizations for:
+
+* 14 models: `single_environment`, `single_texture`, `train_00`, `imagenet_200k`, `single_camera`, `single_model`, `train_12`, `train_11`, `train_10`, `train_09`, `train_08`, `train_07`, `train_06`, `train_05`
+* 6 images: [flowers](https://distill.pub/2018/building-blocks/examples/input_images/flowers.jpeg), [dog_cat](https://distill.pub/2018/building-blocks/examples/input_images/dog_cat.jpeg), [chain](https://distill.pub/2018/building-blocks/examples/input_images/chain.jpeg), as well as images of a piano, a Jeep, a Chrysler car, a chest of drawers
+* 8 layers: `layer2_1_conv2`,`layer3_1`,`layer3_2_conv2`,`layer3_3`,`layer3_4_conv3`,`layer3_5`,`layer4_1_conv2`,`layer4_2`, which I chose to visualize different parts of the network, and to have both convolutional layers and residual block ends
+
+You can find the visualizations by unzipping `ft_results.zip` ([link](https://drive.google.com/file/d/1p2crA0_j5A359TmIb9_m5STm53wjhppr/view?usp=sharing)).

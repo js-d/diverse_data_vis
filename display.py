@@ -13,7 +13,9 @@ st.write("# Visualizations")
 list_pretrain_model_names = [
     m_name[:-3]
     for m_name in os.listdir("pretrain_checkpoints")
-    if m_name.startswith("resnet_50_single") or m_name.startswith("resnet_50_train")
+    if m_name.startswith("resnet_50_single")
+    or m_name.startswith("resnet_50_train")
+    or m_name == "resnet_50_imagenet_200k.pt"
 ]
 list_pretrain_model_names.remove("resnet_50_train_00_redo")
 
@@ -43,13 +45,13 @@ ft1 = st.sidebar.selectbox("Model 1: finetuned?", ["Fine-tuned", "Pretrained"])
 if ft1 == "Fine-tuned":
     model1_name = st.sidebar.selectbox("Model 1: model?", list_ft_model_names)
 else:
-    model1_name = st.sidebar.selectbox("Model 1: model?", list_pretrained_model_names)
+    model1_name = st.sidebar.selectbox("Model 1: model?", list_pretrain_model_names)
 
 ft2 = st.sidebar.selectbox("Model 2: finetuned?", ["Fine-tuned", "Pretrained"])
 if ft2 == "Fine-tuned":
     model2_name = st.sidebar.selectbox("Model 2: model?", list_ft_model_names)
 else:
-    model2_name = st.sidebar.selectbox("Model 2: model?", list_pretrained_model_names)
+    model2_name = st.sidebar.selectbox("Model 2: model?", list_pretrain_model_names)
 
 layer_name = st.sidebar.selectbox("Layer", list_layer_names)
 
