@@ -17,15 +17,20 @@ from objectives import caricature_obj
 from activations import single_layer_acts
 
 
-def get_model(model_name, device):
+def get_model(model_name, device, ft=False):
     if model_name == "pretrained":
         model = models.resnet50(pretrained=True)
     else:
-        chk_name = f"checkpoints/{model_name}.pt"
+        if ft == True:
+            chk_name = f"ft_checkpoints/{model_name}.pt"
+            num_classes = 37 # pets dataset
+        else:
+            chk_name = f"pretrain_checkpoints/{model_name}.pt"
+            num_classes = 40 # auto3d dataset
         state_dict = torch.load(chk_name)["state_dict"]
         model = models.resnet50()
         if model_name != "resnet_50_imagenet_200k":
-            model.fc = torch.nn.Linear(in_features=2048, out_features=40, bias=True)
+            model.fc = torch.nn.Linear(in_features=2048, out_features=num_classes, bias=True)
         model.load_state_dict(state_dict)
     model = model.to(device).eval()
     return model
@@ -91,14 +96,18 @@ if __name__ == "__main__":
     device = torch.device("cuda:0")
 
     # models
-    list_model_names = [
-        m_name[:-3]
-        for m_name in os.listdir("checkpoints")
-        if m_name.startswith("resnet_50_single")
-        or m_name.startswith("resnet_50_train")
-        or m_name == "resnet_50_imagenet_200k"
-    ]
-    list_model_names.remove("resnet_50_train_00_redo")
+    # pretraining
+    # list_model_names = [
+    #     m_name[:-3]
+    #     for m_name in os.listdir("pretrain_checkpoints")
+    #     if m_name.startswith("resnet_50_single")
+    #     or m_name.startswith("resnet_50_train")
+    #     or m_name == "resnet_50_imagenet_200k"
+    # ]
+    # list_model_names.remove("resnet_50_train_00_redo")
+
+    # fine-tuning
+    list_model_names = [m_name[:-3] for m_name in os.listdir("ft_checkpoints")]
 
     # images
     assert args.img_name in [
@@ -126,7 +135,10 @@ if __name__ == "__main__":
     # get the visualizations
     list_times = []
     for model_name in list_model_names:
-        model = get_model(model_name, device)
+        # pretraining
+        # model = get_model(model_name, device)
+        # finetuning
+        model = get_model(model_name, device, ft=True)
 
         for img_name in list_img_names:
             if model_name == "pretrained":

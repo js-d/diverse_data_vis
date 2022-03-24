@@ -1,8 +1,11 @@
 __pycache__
 out/*
-checkpoints/*
+pretrain_checkpoints/*
+ft_checkpoints/*
 pretrain_results/*
 pretrain_results.zip
 preliminary_results/*
 preliminary_results.zip
+ft_results/*
+ft_results.zip
 streamlit_env.yml

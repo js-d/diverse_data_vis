@@ -10,12 +10,14 @@ import matplotlib.pyplot as plt
 st.write("# Visualizations")
 
 # list of models, images, and layers
-list_model_names = [
+list_pretrain_model_names = [
     m_name[:-3]
-    for m_name in os.listdir("checkpoints")
+    for m_name in os.listdir("pretrain_checkpoints")
     if m_name.startswith("resnet_50_single") or m_name.startswith("resnet_50_train")
 ]
-list_model_names.remove("resnet_50_train_00_redo")
+list_pretrain_model_names.remove("resnet_50_train_00_redo")
+
+list_ft_model_names = [m_name[:-3] for m_name in os.listdir("ft_checkpoints")]
 
 list_img_names = [
     "flowers",
@@ -37,9 +39,17 @@ list_layer_names = [
     "layer4_2",
 ]
 
+ft1 = st.sidebar.selectbox("Model 1: finetuned?", ["Fine-tuned", "Pretrained"])
+if ft1 == "Fine-tuned":
+    model1_name = st.sidebar.selectbox("Model 1: model?", list_ft_model_names)
+else:
+    model1_name = st.sidebar.selectbox("Model 1: model?", list_pretrained_model_names)
 
-model1_name = st.sidebar.selectbox("Model 1", list_model_names)
-model2_name = st.sidebar.selectbox("Model 2", list_model_names)
+ft2 = st.sidebar.selectbox("Model 2: finetuned?", ["Fine-tuned", "Pretrained"])
+if ft2 == "Fine-tuned":
+    model2_name = st.sidebar.selectbox("Model 2: model?", list_ft_model_names)
+else:
+    model2_name = st.sidebar.selectbox("Model 2: model?", list_pretrained_model_names)
 
 layer_name = st.sidebar.selectbox("Layer", list_layer_names)
 
@@ -50,8 +60,14 @@ st.sidebar.image(Image.open(Path(f"images/{img_name}.png")))
 fn1_core = f"{model1_name}_{layer_name}_{img_name}"
 fn2_core = f"{model2_name}_{layer_name}_{img_name}"
 
-path1 = Path(f"out/{fn1_core}.npy")
-path2 = Path(f"out/{fn2_core}.npy")
+if ft1 == "Fine-tuned":
+    path1 = Path(f"ft_results/{fn1_core}.npy")
+else:
+    path1 = Path(f"pretrain_results/{fn1_core}.npy")
+if ft2 == "Fine-tuned":
+    path2 = Path(f"ft_results/{fn2_core}.npy")
+else:
+    path2 = Path(f"pretrain_results/{fn2_core}.npy")
 
 img1 = Image.fromarray(np.uint8(np.load(path1) * 255)).convert("RGB")
 img2 = Image.fromarray(np.uint8(np.load(path2) * 255)).convert("RGB")
